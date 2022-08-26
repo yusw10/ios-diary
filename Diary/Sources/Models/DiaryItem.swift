@@ -14,6 +14,7 @@ struct DiaryItem: Decodable, Hashable {
     var title: String
     var body: String
     let createdDate: TimeInterval
+    let uuid = UUID()
     
     // MARK: - Enums(CodingKeys)
     

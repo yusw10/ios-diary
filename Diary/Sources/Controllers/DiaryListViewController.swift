@@ -33,6 +33,20 @@ final class DiaryListViewController: UIViewController {
         return collectionView
     }()
     
+    private var diaryCoreData: [DiaryItem] {
+        guard var diaryCoreData = DiaryCoreDataManager.shared.fetchAllDiary() else {
+            return [DiaryItem]()
+        }
+        
+        let a = DiaryItem(title: "이게 진짜", body: "바디", createdDate: 1111111111)
+        
+        diaryCoreData.append(a)
+        
+        DiaryCoreDataManager.shared.saveDiary(diaryItem: a)
+        
+        return diaryCoreData
+    }
+    
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
@@ -41,7 +55,12 @@ final class DiaryListViewController: UIViewController {
         configureRootViewUI()
         configureCollectionView()
         configureDiaryListDataSource()
-        fetchDiaryItemData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        applyDiaryEntitySnapshot()
     }
 }
 
@@ -102,17 +121,10 @@ private extension DiaryListViewController {
     
     // MARK: - Configuring Model
     
-    func fetchDiaryItemData() {
-        guard let parsedData = diaryDataManager.parse(
-            diaryDataManager.temporarySampleData!.data,
-            into: [DiaryItem].self
-        ) else {
-            return
-        }
-        
+    func applyDiaryEntitySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(parsedData)
+        snapshot.appendItems(diaryCoreData)
         diaryListDiffableDataSource?.apply(snapshot)
     }
     

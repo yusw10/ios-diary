@@ -39,6 +39,8 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         removeKeyboardWillShowNoification()
+        
+        saveDiaryEntity()
     }
 }
 
@@ -52,6 +54,40 @@ extension DiaryDetailViewController {
 }
 
 private extension DiaryDetailViewController {
+    
+    func splitTitleAndBody(from text: String) -> (title: String, body: String) {
+        guard let firstSpaceIndex = text.firstIndex(of: "\n") else {
+            
+            return (title: text, body: "")
+        }
+
+        let lastIndex = text.endIndex
+        
+        let titleSubstring = text[..<firstSpaceIndex]
+        let bodySubstring = text[firstSpaceIndex..<lastIndex]
+        
+        let title = String(titleSubstring)
+        let body = String(bodySubstring)
+        
+        return (title: title, body: body)
+    }
+    
+    func convertTextToDiaryItem() {
+        let data = splitTitleAndBody(from: contentTextView.text)
+        
+        diaryItem?.title = data.title
+        diaryItem?.body = data.body
+    }
+    
+    func saveDiaryEntity() {
+        convertTextToDiaryItem()
+        
+        guard let diaryItem = diaryItem else {
+            return
+        }
+        
+        DiaryCoreDataManager.shared.update(diaryItem: diaryItem)
+    }
     
     // MARK: - Private Methods
     
