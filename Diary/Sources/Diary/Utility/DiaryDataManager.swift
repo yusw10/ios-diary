@@ -20,7 +20,7 @@ struct DiaryDataManager {
         let jsonDecoder = JSONDecoder()
         
         do {
-            let decodedData = try jsonDecoder.decode(T.self, from: temporarySampleData!.data)
+            let decodedData = try jsonDecoder.decode(T.self, from: data)
             return decodedData
         } catch {
             print("Unexpected error: \(error)")
