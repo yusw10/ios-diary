@@ -46,8 +46,6 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        WeatherNetworkManager.shared.requestRegionCode(regionCode: "KR")
-        
         configureRootViewUI()
         configureCollectionView()
         configureDiaryListDataSource()

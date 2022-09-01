@@ -14,9 +14,9 @@ class WeatherNetworkManager {
     private init() {}
     
     
-    func requestRegionCode(regionCode: String){
-        //q=KR&appid=59df1d9ac01127d4ccba473c6dd62a32
-        let urlString = WeatherAPI.coordinateURL + "?q=\(regionCode)" + "&appid=\(WeatherAPI.boryWeatheAPi)"
+    func requestWeatherData(location: Location){
+        //?lat=38.0129678&lon=46.7718772&appid=59df1d9ac01127d4ccba473c6dd62a32
+        let urlString = WeatherAPI.weatherURL + "?lat=\(location.latitude)&lon=\(location.longitude)" + "&appid=\(WeatherAPI.boryWeatheAPi)"
         guard let url = URL(string: urlString) else {
             return
         }
@@ -39,10 +39,12 @@ class WeatherNetworkManager {
                 return
             }
             let decoder = JSONDecoder()
-            print(String(data: resultData, encoding: String.Encoding.utf8))
+            
             do {
-                let decodedData = try decoder.decode(MarketList.self, from: resultData)
-                print(decodedData)
+                let decodedData = try decoder.decode(WeatherModel.self, from: resultData)
+                print("@@@@@@@")
+                print(decodedData.weather.first?.main)
+                print(decodedData.weather.first?.icon)
             } catch {
                 print("히히")
             }
