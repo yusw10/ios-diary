@@ -14,6 +14,7 @@ final class DiaryCreateViewController: DiaryEditableViewController {
     
     private let locationManager = CLLocationManager()
     private var location: Location?
+    private var wasLocationUpdated = false
     
     private var newDiaryItem = DiaryItem(
         title: "",
@@ -23,7 +24,7 @@ final class DiaryCreateViewController: DiaryEditableViewController {
         weather: "",
         weatherIconId: ""
     )
-
+    
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
@@ -40,23 +41,8 @@ final class DiaryCreateViewController: DiaryEditableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         removeKeyboardWillShowNoification()
-        
-        guard let location = location else {
-            return
-        }
-
-        APIURLComponents.configureWeatherQueryItem(
-            location: location
-        )
-
-        createNetworkRequest(
-            using: HTTPMethod.get,
-            on: APIURLComponents.openWeatherURLComponents?.url
-        )
-        
         //TODO: icon id를 바탕으로 이미지에 대한 네트워킹하기
         //TODO: 받은 이미지를 CoreData에 넣기
-        
         updateNewDiaryEntity()
     }
 }
@@ -91,8 +77,13 @@ private extension DiaryCreateViewController {
         ) { (result: Result<Data, NetworkingError>) in
             switch result {
             case .success(let data):
-                print(String(data: data, encoding: .utf8) as Any)
-                //TODO: CoreData의 DiaryEntity에 날씨 정보 저장
+                let diaryDataManager = DiaryDataManager()
+                guard let parsedData = diaryDataManager.parse(data, into: WeatherModel.self) else {
+                    return
+                }
+                
+                self.newDiaryItem.weather = parsedData.weather.first?.main ?? ""
+                self.newDiaryItem.weatherIconId = parsedData.weather.first?.icon ?? ""
             case .failure(let error):
                 print(error)
             }
@@ -140,6 +131,17 @@ private extension DiaryCreateViewController {
             locationManager.startUpdatingLocation()
         }
     }
+    
+    private func updateWeather(at location: Location) {
+        APIURLComponents.configureWeatherQueryItem(
+            location: location
+        )
+        
+        createNetworkRequest(
+            using: HTTPMethod.get,
+            on: APIURLComponents.openWeatherURLComponents?.url
+        )
+    }
 }
 
 extension DiaryCreateViewController: CLLocationManagerDelegate {
@@ -148,12 +150,17 @@ extension DiaryCreateViewController: CLLocationManagerDelegate {
         guard let location = locations.first else {
             return
         }
-
+        
         let locationData = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
         self.location = locationData
+        
+        if wasLocationUpdated == false {
+            updateWeather(at: locationData)
+            wasLocationUpdated = true
+        }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
