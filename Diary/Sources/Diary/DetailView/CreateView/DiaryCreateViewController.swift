@@ -13,6 +13,7 @@ final class DiaryCreateViewController: DiaryEditableViewController {
     // MARK: - Properties
     
     private let locationManager = CLLocationManager()
+    private var location: Location?
     
     private var newDiaryItem = DiaryItem(
         title: "",
@@ -33,11 +34,26 @@ final class DiaryCreateViewController: DiaryEditableViewController {
         setupKeyboard()
         
         setupLocationManager()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         removeKeyboardWillShowNoification()
+        
+        guard let location = location else {
+            return
+        }
+
+        APIURLComponents.configureWeatherQueryItem(
+            location: location
+        )
+
+        createNetworkRequest(
+            using: HTTPMethod.get,
+            on: APIURLComponents.openWeatherURLComponents?.url
+        )
+        
+        //TODO: icon id를 바탕으로 이미지에 대한 네트워킹하기
+        //TODO: 받은 이미지를 CoreData에 넣기
         
         updateNewDiaryEntity()
     }
@@ -59,6 +75,26 @@ private extension DiaryCreateViewController {
     func updateNewDiaryEntity() {
         convertTextToDiaryItem()
         DiaryCoreDataManager.shared.update(diaryItem: newDiaryItem)
+    }
+    
+    func createNetworkRequest(using httpMethod: HTTPMethod, on url: URL?) {
+        let urlRequest = APIRequest(
+            url: url!,
+            httpMethod: httpMethod,
+            body: nil
+        ).createURLRequest()
+        
+        NetworkingManager.execute(
+            urlRequest
+        ) { (result: Result<Data, NetworkingError>) in
+            switch result {
+            case .success(let data):
+                print(String(data: data, encoding: .utf8) as Any)
+                //TODO: CoreData의 DiaryEntity에 날씨 정보 저장
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     // MARK: Configuring UI
@@ -94,39 +130,29 @@ private extension DiaryCreateViewController {
     // MARK: Setting Location
     
     private func setupLocationManager() {
-        locationManager.delegate = self // 델리게이트 설정
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest // 우리가 원하는 위치 정확도
-        locationManager.requestWhenInUseAuthorization() // 위치정보 요청
-        // Privacy - Location When In Use Usage Description (메시지는 plist에서 설정해준 받아옴)
-        // 허용하면 유저가 설정의 프라이버시에서 해당 앱의 location services를 허용하는 것과 같아짐
-
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
-            print("위치 가져오기 시작함")
-        } else {
-            print("위치 서비스 허용 off")
         }
     }
 }
 
 extension DiaryCreateViewController: CLLocationManagerDelegate {
     
-    // 위치를 가져오면 실행됨
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations) // 위도 경도, 풍속, 날짜, 시간 등 정보가 들어있는 Array
-        
-        if let location = locations.first {
-            print("위치 업데이트!")
-            print("위도 : \(location.coordinate.latitude)")
-            print("경도 : \(location.coordinate.longitude)")
-            
-            let location = Location(longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
-            WeatherNetworkManager.shared.requestWeatherData(location: location)
+        guard let location = locations.first else {
+            return
         }
-    }
+
+        let locationData = Location(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
-    // 위치 가져오는 과정에서 오류가 있었으면 실행됨
+        self.location = locationData
+    }
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error")
+        print(error)
     }
 }
