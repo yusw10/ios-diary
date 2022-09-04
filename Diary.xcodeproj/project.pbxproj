@@ -25,6 +25,9 @@
 		FDD7CD9128BD192400B235E2 /* DiaryEditableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD9028BD192400B235E2 /* DiaryEditableViewController.swift */; };
 		FDD7CDBB28C492D900B235E2 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CDBA28C492D900B235E2 /* NetworkingManager.swift */; };
 		FDD7CDBD28C4931F00B235E2 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CDBC28C4931F00B235E2 /* NetworkingError.swift */; };
+		FDD7CDC028C4945000B235E2 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CDBF28C4945000B235E2 /* APIRequest.swift */; };
+		FDD7CDC228C494AF00B235E2 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CDC128C494AF00B235E2 /* HTTPMethod.swift */; };
+		FDD7CDC428C494FE00B235E2 /* APIURLComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CDC328C494FE00B235E2 /* APIURLComponents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,9 @@
 		FDD7CD9028BD192400B235E2 /* DiaryEditableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditableViewController.swift; sourceTree = "<group>"; };
 		FDD7CDBA28C492D900B235E2 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		FDD7CDBC28C4931F00B235E2 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
+		FDD7CDBF28C4945000B235E2 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		FDD7CDC128C494AF00B235E2 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		FDD7CDC328C494FE00B235E2 /* APIURLComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLComponents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +209,9 @@
 			children = (
 				FDD7CDBC28C4931F00B235E2 /* NetworkingError.swift */,
 				FDD7CDBA28C492D900B235E2 /* NetworkingManager.swift */,
+				FDD7CDBF28C4945000B235E2 /* APIRequest.swift */,
+				FDD7CDC128C494AF00B235E2 /* HTTPMethod.swift */,
+				FDD7CDC328C494FE00B235E2 /* APIURLComponents.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -290,7 +299,10 @@
 				FDD7CD9128BD192400B235E2 /* DiaryEditableViewController.swift in Sources */,
 				45222EAB28B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				45222EAE28B5C490001907B4 /* DiaryCoreDataManager.swift in Sources */,
+				FDD7CDC428C494FE00B235E2 /* APIURLComponents.swift in Sources */,
 				FDD7CDBB28C492D900B235E2 /* NetworkingManager.swift in Sources */,
+				FDD7CDC228C494AF00B235E2 /* HTTPMethod.swift in Sources */,
+				FDD7CDC028C4945000B235E2 /* APIRequest.swift in Sources */,
 				45222EE828C0A39E001907B4 /* Weather.swift in Sources */,
 				FD8ED63628AC7CC000F631F2 /* DiaryItem.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
