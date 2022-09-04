@@ -14,7 +14,7 @@ struct NetworkingManager {
     static func execute(
         _ networkRequest: URLRequest,
         completion: @escaping (Result<Data, NetworkingError>) -> Void
-    ) {
+    ) -> URLSessionTask? {
         
         let task = URLSession.shared.dataTask(with: networkRequest) { data, response, error in
             if error != nil {
@@ -32,6 +32,8 @@ struct NetworkingManager {
             completion(.success(data))
         }
         task.resume()
+        
+        return task
     }
 }
 

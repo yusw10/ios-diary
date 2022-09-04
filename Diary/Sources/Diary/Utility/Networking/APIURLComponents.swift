@@ -9,19 +9,20 @@ import CoreLocation
 
 enum APIURLComponents {
     
-    private enum WeatherAPI {
-        static let openWeatherAPI = "http://api.openweathermap.org"
+    private enum OpenWeatherAPI {
+        static let api = "http://api.openweathermap.org"
+        static let iconImageAPI = "https://openweathermap.org"
         static let boryWeatherAPIKey = "59df1d9ac01127d4ccba473c6dd62a32"
     }
     
     // MARK: - Static Properties
     
     static var openWeatherURLComponents = URLComponents(
-        string: WeatherAPI.openWeatherAPI
+        string: OpenWeatherAPI.api
     )
     
     static var openWeatherIconURLComponents = URLComponents(
-        string: WeatherAPI.openWeatherAPI
+        string: OpenWeatherAPI.iconImageAPI
     )
     
     // MARK: - Static Actions
@@ -31,7 +32,7 @@ enum APIURLComponents {
         openWeatherURLComponents?.queryItems = [
             "lat": "\(location.latitude)",
             "lon": "\(location.longitude)",
-            "appid": "\(WeatherAPI.boryWeatherAPIKey)"
+            "appid": "\(OpenWeatherAPI.boryWeatherAPIKey)"
         ].map { URLQueryItem(name: $0.key, value: $0.value) }
     }
     
