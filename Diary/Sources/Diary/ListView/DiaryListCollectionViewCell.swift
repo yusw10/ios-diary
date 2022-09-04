@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryListCollectionViewCell: UICollectionViewCell {
+    
+    var imageRequest: URLSessionTask?
 
     // MARK: - UI Components
 
@@ -52,6 +54,14 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
+    
+    private var weatherIcon: UIImageView = {
+        let weatherIcon = UIImageView()
+        weatherIcon.image = UIImage(systemName: "arrow.clockwise.icloud.fill")
+        weatherIcon.tintColor = .lightGray
+        weatherIcon.contentMode = .scaleToFill
+        return weatherIcon
+    }()
 
     private let shortDescriptionLabel: UILabel = {
         let label = UILabel()
@@ -75,12 +85,35 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        if let imageRequest = imageRequest {
+            imageRequest.cancel()
+        }
+        
+//        weatherIcon.image = UIImage(systemName: "arrow.clockwise.icloud.fill")
+    }
+    
     // MARK: - Methods
     
     func setupCellData(diary: DiaryItem) {
         mainTitleLabel.text = diary.title
         dateLabel.text = diary.createdDate.localizedFormat()
         shortDescriptionLabel.text = diary.body
+        
+        print(diary.weatherIconId)
+        
+        APIURLComponents.configureWeatherIconPath(of: diary.weatherIconId)
+        
+        createNetworkRequest(
+            using: .get,
+            on: APIURLComponents.openWeatherIconURLComponents?.url
+            
+        )
+        
+        
+    
         // TODO: 날씨 이미지 넣는 코드
     }
 }
@@ -88,6 +121,33 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
 // MARK: - Private Methods
 
 private extension DiaryListCollectionViewCell {
+    
+    func createNetworkRequest(using httpMethod: HTTPMethod, on url: URL?) {
+        let urlRequest = APIRequest(
+            url: url!,
+            httpMethod: httpMethod,
+            body: nil
+        ).createURLRequest()
+        
+        imageRequest = NetworkingManager.execute(
+            urlRequest
+        ) { (result: Result<Data, NetworkingError>) in
+            switch result {
+            case .success(let data):
+                print(data)
+                print(urlRequest.url)
+                DispatchQueue.main.async {
+                    self.weatherIcon.image = UIImage(data: data)
+                }
+                
+                
+            case .failure(let error):
+                print(error)
+                print(urlRequest.url)
+            }
+        }
+    }
+    
 
     func addUIComponents() {
         contentView.addSubview(labelsVerticalStackView)
@@ -97,6 +157,7 @@ private extension DiaryListCollectionViewCell {
         labelsVerticalStackView.addArrangedSubview(secondRowHorizontalStackView)
 
         secondRowHorizontalStackView.addArrangedSubview(dateLabel)
+        secondRowHorizontalStackView.addArrangedSubview(weatherIcon)
         secondRowHorizontalStackView.addArrangedSubview(shortDescriptionLabel)
     }
 

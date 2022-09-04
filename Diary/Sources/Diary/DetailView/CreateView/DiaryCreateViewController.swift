@@ -78,12 +78,16 @@ private extension DiaryCreateViewController {
             switch result {
             case .success(let data):
                 let diaryDataManager = DiaryDataManager()
-                guard let parsedData = diaryDataManager.parse(data, into: WeatherModel.self) else {
+                guard let parsedData = diaryDataManager.parse(data, into: WeatherModel.self),
+                      let weatherItem = parsedData.weather.first else {
                     return
                 }
+                self.newDiaryItem.weather = weatherItem.main
+                self.newDiaryItem.weather = weatherItem.icon
                 
-                self.newDiaryItem.weather = parsedData.weather.first?.main ?? ""
-                self.newDiaryItem.weatherIconId = parsedData.weather.first?.icon ?? ""
+                print("weatherItem.main - \(weatherItem.main)")
+                print("weatherItem.icon - \(weatherItem.icon)")
+                
             case .failure(let error):
                 print(error)
             }

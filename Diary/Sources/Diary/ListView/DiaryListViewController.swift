@@ -186,6 +186,9 @@ private extension DiaryListViewController {
                     return UICollectionViewCell()
                 }
                 diaryCell.setupCellData(diary: itemIdentifier)
+                print("~!@!~!@~!@~!@~!@")
+                print(itemIdentifier.weatherIconId)
+                print("~!@!~!@~!@~!@~!@")
                 return diaryCell
             })
     }
