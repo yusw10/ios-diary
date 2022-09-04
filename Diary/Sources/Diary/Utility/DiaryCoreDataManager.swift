@@ -26,6 +26,8 @@ class DiaryCoreDataManager {
         diaryEntity.body = diaryItem.body
         diaryEntity.createdDate = Date(timeIntervalSince1970: diaryItem.createdDate)
         diaryEntity.uuid = diaryItem.uuid
+        diaryEntity.weather = diaryItem.weather
+        diaryEntity.weatherIconId = diaryItem.weatherIconId
         do {
             try context.save()
         } catch {
@@ -49,12 +51,21 @@ class DiaryCoreDataManager {
                     return
                 }
                 
-                let diaryItem = DiaryItem(
+                var diaryItem = DiaryItem(
                     title: title,
                     body: body,
                     createdDate: createdDate.timeIntervalSince1970,
-                    uuid: uuid
+                    uuid: uuid,
+                    weather: "",
+                    weatherIconId: ""
                 )
+                
+                if let weather = diaryEntity.weather {
+                    diaryItem.weather = weather
+                }
+                if let weatherIconId = diaryEntity.weatherIconId {
+                    diaryItem.weatherIconId = weatherIconId
+                }
                 
                 diaryItems.append(diaryItem)
             }
@@ -76,6 +87,8 @@ class DiaryCoreDataManager {
             let diaryEntity = diaryEntities[0]
             diaryEntity.setValue(diaryItem.title, forKey: "title")
             diaryEntity.setValue(diaryItem.body, forKey: "body")
+            diaryEntity.setValue(diaryItem.weather, forKey: "weather")
+            diaryEntity.setValue(diaryItem.weatherIconId, forKey: "weatherIconId")
             
             try context.save()
         } catch {

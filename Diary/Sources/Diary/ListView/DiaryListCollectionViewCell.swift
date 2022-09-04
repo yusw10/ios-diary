@@ -81,6 +81,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         mainTitleLabel.text = diary.title
         dateLabel.text = diary.createdDate.localizedFormat()
         shortDescriptionLabel.text = diary.body
+        // TODO: 날씨 이미지 넣는 코드
     }
 }
 

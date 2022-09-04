@@ -15,6 +15,8 @@ struct DiaryItem: Decodable, Hashable {
     var body: String
     let createdDate: TimeInterval
     let uuid: UUID
+    var weather: String
+    var weatherIconId: String
     
     // MARK: - Enums(CodingKeys)
     
@@ -23,5 +25,7 @@ struct DiaryItem: Decodable, Hashable {
         case body
         case createdDate = "created_at"
         case uuid
+        case weather
+        case weatherIconId = "weather_icon_id"
     }
 }

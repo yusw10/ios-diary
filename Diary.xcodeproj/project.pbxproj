@@ -31,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4518E46728C4DDEA005CB548 /* Diary2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Diary2.xcdatamodel; sourceTree = "<group>"; };
 		45222EA928B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		45222EAA28B5C1BF001907B4 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		45222EAD28B5C490001907B4 /* DiaryCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreDataManager.swift; sourceTree = "<group>"; };
@@ -511,9 +512,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4518E46728C4DDEA005CB548 /* Diary2.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = 4518E46728C4DDEA005CB548 /* Diary2.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

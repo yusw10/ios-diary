@@ -19,7 +19,9 @@ final class DiaryCreateViewController: DiaryEditableViewController {
         title: "",
         body: "",
         createdDate: Date().timeIntervalSince1970,
-        uuid: UUID()
+        uuid: UUID(),
+        weather: "",
+        weatherIconId: ""
     )
 
     // MARK: - Life Cycles
