@@ -102,7 +102,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         dateLabel.text = diary.createdDate.localizedFormat()
         shortDescriptionLabel.text = diary.body
         
-        print(diary.weatherIconId)
+        print("여기는 105번 입니다 보이 \(diary.weatherIconId)")
         
         APIURLComponents.configureWeatherIconPath(of: diary.weatherIconId)
         

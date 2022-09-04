@@ -11,6 +11,7 @@ enum APIURLComponents {
     
     private enum WeatherAPI {
         static let openWeatherAPI = "http://api.openweathermap.org"
+        static let iconImageAPI = "https://openweathermap.org"
         static let boryWeatherAPIKey = "59df1d9ac01127d4ccba473c6dd62a32"
     }
     
@@ -21,7 +22,7 @@ enum APIURLComponents {
     )
     
     static var openWeatherIconURLComponents = URLComponents(
-        string: WeatherAPI.openWeatherAPI
+        string: WeatherAPI.iconImageAPI
     )
     
     // MARK: - Static Actions
