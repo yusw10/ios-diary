@@ -1,4 +1,7 @@
 # 일기장 프로젝트 📔
+
+###### tags: `README`
+
 ## 🪧 목차
 
 - [📜 프로젝트 내용](#-프로젝트-내용)
@@ -36,6 +39,8 @@
 - Notification - Keyboard event, didEnterBackgroundNotification
 - Localization
 - ActionSheet 
+- URLSession
+  - OpenAPI 활용하여 날씨 정보 반영
 
 <br>
 
@@ -123,14 +128,16 @@
 
 ## 📱 실행 화면
 
+
 |일기 목록 화면|일기 상세 화면|
 |:-----------:|:----------:|
-| <img src=https://i.imgur.com/mHmsPVo.png width=100%> | <img src=https://i.imgur.com/vsf5hUf.png width=100%> |
+| ![](https://i.imgur.com/8p0uLF5.png) | ![](https://i.imgur.com/kwrnrl1.png) |
+
 
 
 |일기 삭제|일기 공유|
 |:-----------:|:----------:|
-| <img src=https://i.imgur.com/XzrDuSa.gif width=100%> | <img src=https://i.imgur.com/FQnLXtP.gif width=100%> |
+| ![](https://i.imgur.com/TBK2JCa.gif) | ![](https://i.imgur.com/FQnLXtP.gif) |
 
 
 
@@ -146,14 +153,11 @@
 
 ## 🔫 트러블 슈팅
 
-### STEP 1
-#### 4.1 키보드가 텍스트를 가리는 문제
+#### 키보드가 텍스트를 가리는 문제
 
 |수정 전|수정 후|
 |:-----------:|:----------:|
 | ![](https://i.imgur.com/NcD6svP.gif)| ![](https://i.imgur.com/hPeHIK2.gif)|
-
-
 
 
 일기 작성/수정/조회 화면에서 화면 하단 쪽에 위치한 텍스트를 탭할 경우 키보드가 올라오면서 커서가 가려지는 문제가 있었습니다. 처음에는 `UITextView`의 인스턴스 프로퍼티에 `textPopUpMode`와 같은 프로퍼티를 통해 해결할 수 있을 것이라고 예상했지만, 그런 프로퍼티는 없었습니다.
@@ -188,10 +192,6 @@ func setupKeyboardWillShowNoification() {
 ```
 
 
-
-### STEP 2
-PR 리뷰 후 작성예정...
-
 <br>
 
 ## 🔗 참고 링크
@@ -200,4 +200,3 @@ PR 리뷰 후 작성예정...
 
 [컨벤션 - 스타일쉐어](https://github.com/StyleShare/swift-style-guide)
 
-[UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
